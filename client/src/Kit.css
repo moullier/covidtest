@@ -1,0 +1,127 @@
+.listed {
+    background-color: #ebebeb;
+    min-height: 700px;
+    min-width: 100%;
+    margin: auto; 
+
+}
+
+#to-do-form input {
+    background-color: #ffffff;
+    border: 0;
+    width: 200px;
+    height: 50px;
+    padding: 0 20px;
+    margin: 20px;
+    font-size: 12px;
+    border-radius: 10px;
+    color: black;   
+}
+
+#to-do-form input::placeholder{
+    color: black;
+    text-align: center;
+}
+
+.test {
+    margin: 10px;
+}
+
+.lift {
+    margin-bottom: 30px;
+}
+
+#to-do-form input:focus, #to-do-form button:focus{
+    outline: none;
+
+}
+#to-do-form button {
+    height: 50px;
+    width: 80px;
+    border-radius: 50px;
+    border: 0;
+    background-color: #3a57af;
+    cursor: pointer;
+    font-weight: bolder;
+    color: #ebebeb;
+    font-size: 14px;
+}
+
+.listing{
+    color: white;
+    width: 300px;
+    background-color: #3a57af;
+    height: 50PX;
+    margin: 14px auto;
+    border-radius: 5px;
+}
+
+.listing p{
+    padding: 10px;
+    position: relative;
+    font-size: 14px;
+}
+
+.listing p span{
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+}
+
+.faicons{
+    margin: 0 5px;
+    font-size: 15px;
+}
+
+
+.survivor input {
+    background-color: white;
+    border: 0;
+    width: 200px;
+    height: 50px;
+    padding: 0 20px;
+    margin: 10px;
+    font-size: 12px;
+    border-radius: 10px;
+    color: black;
+}
+
+.survivor input::placeholder{
+    color: white;
+    text-align: center;
+
+}
+
+.survivor button {
+    height: 50px;
+    width: 80px;
+    border-radius: 50px;
+    border: 0;
+    background-color: #3a57af;
+    cursor: pointer;
+    font-weight: bolder;
+    color: whitesmoke;
+    font-size: 14px;
+}
+
+.survivor input::placeholder{
+    color: black;
+
+}
+
+.survivor input:focus, .listed button:focus{
+    outline: none;
+
+}
+
+.survivor {
+    background-color: #ebebeb;
+    min-height: 100%;
+    min-width: 100%;
+    margin: auto;
+    margin-bottom: 3%;
+}
+
+#jumbo{
+    background-color: #3a57af;
+}
