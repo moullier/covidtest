@@ -212,6 +212,58 @@ app.get("/api/county_data/", function(req, res) {
   })
 })
 
+// get all county data for last month
+app.get("/api/county_data/last_month/:latestDate", function(req, res) {
+
+  console.log("in last month route");
+  console.log(req.params.latestDate);
+
+  let latestDate = req.params.latestDate;
+
+  // calculate the date of a month ago
+  let year = parseInt(latestDate.substring(0, 4));
+  let month = parseInt(latestDate.substring(5, 7));
+  let day = parseInt(latestDate.substring(8, 10));
+
+  let dateObj = new Date(year, month - 1, day);
+
+  // Getting required values
+  const newyear = dateObj.getFullYear();
+  const newmonth = dateObj.getMonth();
+  const newday = dateObj.getDate();
+
+  // Creating a new Date (with the delta)
+  const monthAgoDate = new Date(newyear, newmonth, newday - 30);
+
+  // final result
+
+  const finalyear = monthAgoDate.getFullYear();
+  let finalmonth = monthAgoDate.getMonth() + 1;
+  if(finalmonth < 10) {
+      finalmonth = "0" + finalmonth;
+  }
+
+  let finalday = monthAgoDate.getDate();
+  if(finalday < 10) {
+      finalday = "0" + finalday;
+  }
+
+
+  const final = finalyear + "-" + finalmonth + "-" + finalday;
+
+  console.log("month ago date is: " + final);
+
+
+
+
+  db.CountyData.findAll({})
+  .then(function(result) {
+    res.json(result);
+  })
+})
+
+
+
 // POST ROUTES
 
 // create new location entry for a user

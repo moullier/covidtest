@@ -3,6 +3,9 @@ import "../App.css";
 import MapContainer from "../components/MapContainer";
 import ChartContainer from "../components/ChartContainer";
 import Axios from "axios";
+import monthAgo from "../utils/monthAgo";
+import previousDate from "../utils/previousDate";
+
 
 class Home extends Component {
 
@@ -53,18 +56,46 @@ class Home extends Component {
       console.log(stateDataRes);
       let stateData = stateDataRes.data;
 
-      Axios.get("/api/county_data/")
-      .then(countyDataRes => {
-        let countyData = countyDataRes.data;
-        console.log(countyData);
+      Axios.get("/api/county_latest_date/")
+      .then(countyDate => {
+        let latestCountyDate = countyDate.data[0].date;
 
-        this.setState({
-          countyData: countyData,
-          stateData: stateData
-        });
+        this.getCountyData(latestCountyDate)
+        .then(results => {
+          // array of results in order here
+          console.log(results);
+
+          let countyData = [];
+
+          for(let i = results.length - 1; i >= 0; i--) {
+            countyData = countyData.concat(results[i].data);
+          }
+
+          console.log(countyData);
+
+          this.setState({
+            countyData: countyData,
+            stateData: stateData
+          });
+        })
       })
     })
   }
+
+  // get 30 days of county level data
+  getCountyData(latestDate) {
+
+    let prevDate = latestDate;
+    console.log(prevDate);
+    let promises = [];
+    for (let i = 0; i < 30; i++) {
+         promises.push(Axios.get("/api/county_data/" + prevDate));
+         prevDate = previousDate.previousDate(prevDate);
+         console.log(prevDate);
+    }
+    return Promise.all(promises);
+  }
+
 
 
   render() {
