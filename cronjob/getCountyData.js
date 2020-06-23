@@ -5,6 +5,8 @@ const axios = require("axios");
 const convert = require("./csvtojson.js");
 // const writeStream = fs.createWriteStream('us-counties.json');
 
+const PORT = process.env.PORT || 3001;
+
 const url = 'https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-counties.csv';
 
 function countyScrape() {
