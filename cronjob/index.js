@@ -1,5 +1,5 @@
 const counties = require("./getCountyData");
 const states = require("./getStateData");
 
-// counties();
+counties();
 states();

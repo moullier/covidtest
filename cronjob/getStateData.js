@@ -24,7 +24,7 @@ function stateScrape() {
             let post_URL = "http://localhost:3001/api/state_data/";
 
             if(process.env.NODE_ENV === "production") {
-                server_URL = "https://covidtestdb.herokuapp.com/api/county_latest_date/";
+                server_URL = "https://covidtestdb.herokuapp.com/api/state_latest_date/";
                 post_URL = "https://covidtestdb.herokuapp.com/api/state_data/";
             }
 
