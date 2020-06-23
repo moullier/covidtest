@@ -4,6 +4,7 @@ import Extras from "../components/NewsExtra";
 import "../App.css";
 import Questions from "../components/Questions";
 import Symptoms from "../components/Symptoms";
+import Axios from "axios";
 
 function News() {
 
@@ -20,7 +21,8 @@ function News() {
 
     function loadNews() {
 
-        API.getNews()
+        //API.getNews()
+        Axios.get("https://newsapi.org/v2/top-headlines?q=coronavirus&country=us&apiKey=6357cdd3d6b24dc4805cd011b911f281")
             .then(res => {
                 console.log(res.data.articles)
                 setArticles(res.data.articles)
