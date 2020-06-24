@@ -268,7 +268,7 @@ app.get("/api/county_data/last_month/:latestDate", function(req, res) {
 
 app.get("/api/covidnews/", function (req, res) {
 
-  Axios.get("https://newsapi.org/v2/top-headlines?q=coronavirus&country=us&apiKey=6357cdd3d6b24dc4805cd011b911f281")
+  Axios.get("https://gnews.io/api/v3/search?q=coronavirus&token=260ad6598318e70842a0c954b398cb58")
   .then(result => {
 
     console.log(result.data);
