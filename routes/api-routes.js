@@ -2,6 +2,7 @@
 
 let db = require("../models");
 let passport = require("../config/passport");
+const Axios = require("axios");
 
 module.exports = function (app) {
 
@@ -260,6 +261,19 @@ app.get("/api/county_data/last_month/:latestDate", function(req, res) {
   .then(function(result) {
     res.json(result);
   })
+})
+
+
+// get news on coronavirus from newsapi.org
+
+app.get("/api/covidnews/", function (req, res) {
+
+  Axios.get("https://newsapi.org/v2/top-headlines?q=coronavirus&country=us&apiKey=6357cdd3d6b24dc4805cd011b911f281")
+  .then(result => {
+
+    console.log(result.data);
+    res.json(result.data);
+  });
 })
 
 

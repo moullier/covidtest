@@ -22,7 +22,7 @@ function News() {
     function loadNews() {
 
         //API.getNews()
-        Axios.get("https://newsapi.org/v2/top-headlines?q=coronavirus&country=us&apiKey=6357cdd3d6b24dc4805cd011b911f281")
+        Axios.get("/api/covidnews/")
             .then(res => {
                 console.log(res.data.articles)
                 setArticles(res.data.articles)
