@@ -60,24 +60,37 @@ class Home extends Component {
       .then(countyDate => {
         let latestCountyDate = countyDate.data[0].date;
 
-        this.getCountyData(latestCountyDate)
+        Axios.get("/api/county_data/last_month/" + latestCountyDate)
         .then(results => {
-          // array of results in order here
           console.log(results);
 
-          let countyData = [];
-
-          for(let i = results.length - 1; i >= 0; i--) {
-            countyData = countyData.concat(results[i].data);
-          }
-
-          console.log(countyData);
+          let countyData = results.data;
 
           this.setState({
             countyData: countyData,
             stateData: stateData
           });
+
         })
+
+        // this.getCountyData(latestCountyDate)
+        // .then(results => {
+        //   // array of results in order here
+        //   console.log(results);
+
+        //   let countyData = [];
+
+        //   for(let i = results.length - 1; i >= 0; i--) {
+        //     countyData = countyData.concat(results[i].data);
+        //   }
+
+        //   console.log(countyData);
+
+        //   this.setState({
+        //     countyData: countyData,
+        //     stateData: stateData
+        //   });
+        // })
       })
     })
   }

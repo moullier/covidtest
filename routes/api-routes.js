@@ -140,6 +140,7 @@ app.get("/api/disasterkit/:id", function(req, res){
 });
 
 
+// gets the last entry in the state database, by id
 app.get("/api/state_latest_date/", function(req, res) {
   console.log("GET /api/state_latest_date/");
   db.StateData.findAll({
@@ -153,9 +154,22 @@ app.get("/api/state_latest_date/", function(req, res) {
   })
 })
 
+// gets the last entry in the county database, by id
 app.get("/api/county_latest_date/", function(req, res) {
-  console.log("GET /api/county_latest_date/");
   db.CountyData.findAll({
+    order: [
+      ['id', 'DESC']
+    ],
+    limit: 1
+  })
+  .then(function(result) {
+    res.json(result);
+  })
+})
+
+// gets the last entry in the national database, by id
+app.get("/api/national_latest_date/", function(req, res) {
+  db.NationalData.findAll({
     order: [
       ['id', 'DESC']
     ],
@@ -221,11 +235,40 @@ app.get("/api/county_data/last_month/:latestDate", function(req, res) {
 
   let latestDate = req.params.latestDate;
 
-  // calculate the date of a month ago
-  let year = parseInt(latestDate.substring(0, 4));
-  let month = parseInt(latestDate.substring(5, 7));
-  let day = parseInt(latestDate.substring(8, 10));
+  let dateArray = [];
+  dateArray.unshift(latestDate);
+  let newDate = latestDate;
 
+  for(let i = 0; i < 30; i++) {
+    newDate = getPreviousDate(newDate);
+    console.log(newDate);
+    dateArray.unshift(newDate);
+  }
+
+  console.log(dateArray);
+
+  db.CountyData.findAll({
+    where: {
+      date: dateArray // Same as using `id: { [Op.in]: [1,2,3] }`
+    }
+  })
+  .then(function(result) {
+    console.log("result");
+    console.log(result);
+    res.json(result);
+  })
+})
+
+
+// calculate previous date, given a string formatted "YYYY-MM-DD"
+// return in same string format
+function getPreviousDate(date) {
+
+  let year = parseInt(date.substring(0, 4));
+  let month = parseInt(date.substring(5, 7));
+  let day = parseInt(date.substring(8, 10));
+
+  // create Date object
   let dateObj = new Date(year, month - 1, day);
 
   // Getting required values
@@ -234,17 +277,17 @@ app.get("/api/county_data/last_month/:latestDate", function(req, res) {
   const newday = dateObj.getDate();
 
   // Creating a new Date (with the delta)
-  const monthAgoDate = new Date(newyear, newmonth, newday - 30);
+  const previousDate = new Date(newyear, newmonth, newday - 1);
 
   // final result
 
-  const finalyear = monthAgoDate.getFullYear();
-  let finalmonth = monthAgoDate.getMonth() + 1;
+  const finalyear = previousDate.getFullYear();
+  let finalmonth = previousDate.getMonth() + 1;
   if(finalmonth < 10) {
       finalmonth = "0" + finalmonth;
   }
 
-  let finalday = monthAgoDate.getDate();
+  let finalday = previousDate.getDate();
   if(finalday < 10) {
       finalday = "0" + finalday;
   }
@@ -252,20 +295,13 @@ app.get("/api/county_data/last_month/:latestDate", function(req, res) {
 
   const final = finalyear + "-" + finalmonth + "-" + finalday;
 
-  console.log("month ago date is: " + final);
+  console.log("previous date is: " + final);
+
+  return final;
+}
 
 
-
-
-  db.CountyData.findAll({})
-  .then(function(result) {
-    res.json(result);
-  })
-})
-
-
-// get news on coronavirus from newsapi.org
-
+// get news on coronavirus from gnews.io
 app.get("/api/covidnews/", function (req, res) {
 
   Axios.get("https://gnews.io/api/v3/search?q=coronavirus&token=260ad6598318e70842a0c954b398cb58")
@@ -458,6 +494,35 @@ app.post("/api/county_data/", function(req, res) {
   })
 })
 
+
+// add new data to NationalData table
+app.post("/api/national_data/", function(req, res) {
+  console.log("hit /api/national_data");
+
+  console.log(req.body);
+
+  let newNationalData = req.body;
+
+  let dataList = [];
+
+  newNationalData.forEach(item => {
+    console.log(item);
+    db.NationalData.create({
+      date: item.date,
+      cases: item.cases,
+      deaths: item.deaths
+    })
+    .then(function (response) {
+  
+      dataList.push(response);
+      if (dataList.length === newNationalData.length) {
+        res.status(200).json(dataList);
+      }
+    }).catch(function (error) {
+      res.status(500).json(error);            
+    });
+  })
+})
 
 
 
