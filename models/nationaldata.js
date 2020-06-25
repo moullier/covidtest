@@ -1,16 +1,8 @@
 module.exports = function(sequelize, DataTypes) {
-    let StateData = sequelize.define("StateData", {
+    let NationalData = sequelize.define("NationalData", {
         date: {
             type: DataTypes.STRING,
             allowNull: false,
-        },
-        state: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        fips: {
-            type: DataTypes.STRING,
-            allowNull: true,
         },
         cases: {
             type: DataTypes.INTEGER,
@@ -22,6 +14,6 @@ module.exports = function(sequelize, DataTypes) {
         }
     });
 
-    return StateData;
+    return NationalData;
   };
   

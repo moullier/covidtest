@@ -34,8 +34,9 @@ function getNationalData() {
             
                 lastDateInDB = dateRes.data[0].date;
                 // generate an array with the latest days data
-                let i = stateInfo.length - 1;
-                let date = stateInfo[i].date;
+                let i = nationalInfo.length - 1;
+                console.log(i);
+                let date = nationalInfo[i].date;
 
                 console.log("lastDateInDB is " + lastDateInDB);
 
@@ -43,9 +44,9 @@ function getNationalData() {
                 if(lastDateInDB != date) {
                     console.log("new data exists");
                     let newData = [];
-        
-                    while(stateInfo[i].date !== lastDateInDB) {
-                        newData.unshift(stateInfo[i]);
+
+                    while(nationalInfo[i].date !== lastDateInDB) {
+                        newData.unshift(nationalInfo[i]);
                         i--;
                     }
         
@@ -62,14 +63,6 @@ function getNationalData() {
                     console.log("the dates match, no need to update");
                 }
             })
-
-
-            // fs.writeFile("./stateresults.json", JSON.stringify(stateInfo), function(err) {
-            //     if(err) {
-            //         return console.log(err);
-            //     }
-            //     console.log("The file was saved!");
-            // }); 
         }
     });
 }

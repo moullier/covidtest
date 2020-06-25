@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import CountyChartContainer from "./CountyChartContainer";
 import StateChartContainer from "./StateChartContainer";
-
 import nationalData from "../assets/us.json";
 import stateNames from "../utils/json/state-names-&-abbrevs.json";
 import $ from "jquery";

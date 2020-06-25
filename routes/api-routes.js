@@ -211,6 +211,14 @@ app.get("/api/county_data/:todaydate", function(req, res) {
   })
 })
 
+// get all national data for all dates
+app.get("/api/national_data/", function(req, res) {
+  db.NationalData.findAll({})
+  .then(function(result) {
+    res.json(result);
+  })
+})
+
 // get all state data for all dates
 app.get("/api/state_data/", function(req, res) {
   db.StateData.findAll({})
@@ -219,7 +227,7 @@ app.get("/api/state_data/", function(req, res) {
   })
 })
 
-// get all county data for all dates
+// get all county data for all dates -- performance issues, try to avoid using
 app.get("/api/county_data/", function(req, res) {
   db.CountyData.findAll({})
   .then(function(result) {
