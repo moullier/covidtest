@@ -171,7 +171,7 @@ app.get("/api/county_latest_date/", function(req, res) {
 app.get("/api/national_latest_date/", function(req, res) {
   db.NationalData.findAll({
     order: [
-      ['id', 'DESC']
+      ['cases', 'DESC']
     ],
     limit: 1
   })
@@ -199,8 +199,8 @@ app.get("/api/state_data/:todaydate", function(req, res) {
 
 // route that gets all county data for one date, matching the data passed as a parameter
 app.get("/api/county_data/:todaydate", function(req, res) {
-  console.log("GET /api/county_data/");
-  console.log(req.params.todaydate);
+  // console.log("GET /api/county_data/");
+  // console.log(req.params.todaydate);
   db.CountyData.findAll({
     where: {
       date: req.params.todaydate
@@ -249,7 +249,7 @@ app.get("/api/county_data/last_month/:latestDate", function(req, res) {
 
   for(let i = 0; i < 30; i++) {
     newDate = getPreviousDate(newDate);
-    console.log(newDate);
+    // console.log(newDate);
     dateArray.unshift(newDate);
   }
 
@@ -261,8 +261,6 @@ app.get("/api/county_data/last_month/:latestDate", function(req, res) {
     }
   })
   .then(function(result) {
-    console.log("result");
-    console.log(result);
     res.json(result);
   })
 })

@@ -14,7 +14,8 @@ class Home extends Component {
 
     this.state = {
       countyData: [],
-      stateData: []
+      stateData: [],
+      nationalData: []
     };
   }
 
@@ -66,11 +67,17 @@ class Home extends Component {
 
           let countyData = results.data;
 
-          this.setState({
-            countyData: countyData,
-            stateData: stateData
-          });
+          Axios.get("/api/national_data/")
+          .then(nationalResults => {
+            let nationalData = nationalResults.data;
+            console.log(nationalData);
 
+            this.setState({
+              countyData: countyData,
+              stateData: stateData,
+              nationalData: nationalData
+            });
+          })
         })
 
         // this.getCountyData(latestCountyDate)
@@ -113,9 +120,17 @@ class Home extends Component {
 
   render() {
 
-    let renderCharts = "";
+    let renderCharts = <div className="container d-flex justify-content-center">
+        <div className="spinner-border m-5" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>;
     if(this.state.countyData.length > 0) {
-      renderCharts = <ChartContainer countyData={this.state.countyData} stateData={this.state.stateData}/>;
+      renderCharts = <ChartContainer
+        countyData={this.state.countyData}
+        stateData={this.state.stateData}
+        nationalData={this.state.nationalData}
+      />;
     }
 
       return (

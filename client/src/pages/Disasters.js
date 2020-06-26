@@ -29,14 +29,9 @@ class Disasters extends Component {
         this.loadDisasters = this.loadDisasters.bind(this);
         this.handleStateChange = this.handleStateChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-
-        //this.highlightFeature.bind(this)
-
     }
 
-    componentDidMount() {
-        console.log('mounted');
-    
+    componentDidMount() {    
         // check if user is logged in
         Axios.get("/api/user_data")
         .then((data) => {
@@ -90,11 +85,21 @@ class Disasters extends Component {
                 ["Orange", "Florida", 27.766279, -81.686783]
             ];
 
-            this.loadAllDisasters();
+            Axios.get("https://www.fema.gov/api/open/v1/DisasterDeclarationsSummaries?$filter=declarationDate%20gt%20%272019-06-01T04:00:00.000z%27%20&$top=1000")
+            .then(result => {
+                console.log(result);
+                Axios.get("https://www.fema.gov/api/open/v1/DisasterDeclarationsSummaries?$filter=declarationDate%20gt%20%272019-06-01T04:00:00.000z%27%20&$skip=1000")
+                .then(secondRes => {
+                    console.log(secondRes);
+                    this.loadAllDisasters();
 
-            this.setState({locations: arrayOfLocations}, () => {
-                console.log(this.state);
-            });
+                    this.setState({locations: arrayOfLocations}, () => {
+                        console.log(this.state);
+                    });
+                })
+            })
+
+
         })
     }
     
