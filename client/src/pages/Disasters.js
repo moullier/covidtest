@@ -237,7 +237,11 @@ class Disasters extends Component {
             </div>
         </div>;
         } else {
-            resultToRender = "";
+            resultToRender = <div className="container d-flex justify-content-center">
+            <div className="spinner-border m-5" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>;
         }
 
         return (
