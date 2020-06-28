@@ -3,6 +3,7 @@
 let db = require("../models");
 let passport = require("../config/passport");
 const Axios = require("axios");
+const Sequelize = require('sequelize');
 
 module.exports = function (app) {
 
@@ -318,6 +319,38 @@ app.get("/api/covidnews/", function (req, res) {
   });
 })
 
+
+// get all disasters - not including COVID 19
+app.get("/api/all_disasters_non_coivd", function (req, res) {
+
+  db.FemaDisaster.findAll({
+    where: {
+      incidentType: {
+        [Sequelize.Op.not]: 'Biological'
+      }
+    }
+  })
+  .then(function(result) {
+    res.json(result);
+  })
+})
+
+
+// get all disasters for a specified state - not including COVID 19
+app.get("/api/all_disasters_non_coivd/:state", function (req, res) {
+
+  db.FemaDisaster.findAll({
+    where: {
+      incidentType: {
+        [Sequelize.Op.not]: 'Biological'
+      },
+      state: req.params.state
+    }
+  })
+  .then(function(result) {
+    res.json(result);
+  })
+})
 
 
 // POST ROUTES

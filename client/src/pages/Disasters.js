@@ -98,8 +98,6 @@ class Disasters extends Component {
                     });
                 })
             })
-
-
         })
     }
     
@@ -109,10 +107,11 @@ class Disasters extends Component {
         let stateAb = stateAbbr.convertRegion(state, 2);
         console.log(stateAb);
 
-        disasterAPI.getDisastersbyState(stateAb)
+        // disasterAPI.getDisastersbyState(stateAb)
+        Axios.get("/api/all_disasters_non_coivd/" + stateAb)
             .then(res => {
-                console.log(res.data.DisasterDeclarationsSummaries);
-                return res.data.DisasterDeclarationsSummaries;
+                console.log(res.data);
+                return res.data;
             })
             .catch(err => console.log(err));
 
@@ -122,10 +121,16 @@ class Disasters extends Component {
     loadAllDisasters() {
 
         // load all disasters in the last year
-        disasterAPI.getDisasters()
+        // Axios.get("https://www.fema.gov/api/open/v1/DisasterDeclarationsSummaries?$filter=declarationDate%20gt%20%272019-06-25T04:00:00.000z%27and incidentType ne 'Biological'&$top=1000")
+        // .then(res => {
+        //     let all_disasters = res.data.DisasterDeclarationsSummaries;
+        //     console.log(res.data.DisasterDeclarationsSummaries); 
+
+        Axios.get("/api/all_disasters_non_coivd")
         .then(res => {
-            let all_disasters = res.data.DisasterDeclarationsSummaries;
-            console.log(res.data.DisasterDeclarationsSummaries);
+
+            let all_disasters = res.data;
+            console.log(res.data);
 
             // separate out into lists of declarations by state
             stateNames.forEach(el => {
@@ -207,8 +212,8 @@ class Disasters extends Component {
 
         let resultToRender;
         if(this.state.allStates.length > 0) {
-            console.log("****")
-            console.log(this.state.allStates.length);
+            // console.log("****")
+            // console.log(this.state.allStates.length);
             let temp = this.state.allStates.map((st) => {
                 let res = {};
                 //res.question = <div>{st[0]} {"\u2014"} {st[1].length} disasters declared</div>;
@@ -225,7 +230,7 @@ class Disasters extends Component {
             });
             console.log(temp);
             resultToRender = <div className="col-6 faqs">
-            <h2 className="text-center">Disasters by State in the last Year</h2>
+            <h2 className="text-center">Disasters (Non-COVID) by State in 2020</h2>
             <hr></hr>
             <div className="stuff">
                 <DisasterList stateDisasters={temp}/>
@@ -244,15 +249,6 @@ class Disasters extends Component {
                     <DisasterMap key={index} USstate={el[1]} lat={el[2]} long={el[3]} disasters={el[4]}/>
                     </div>
                 ))}
-                {/* <form onSubmit={this.handleSubmit}>
-                    <label htmlFor="state">State</label>
-                    <select onChange={this.handleStateChange} className="form-control" id="FTUstateSelect">
-                    {stateNames.sort().map(name => (
-                        <option>{name}</option>
-                    ))}
-                    </select>
-                    <button type="submit" className="btn form-btn">Enter State</button>
-                </form> */}
             </div>
     );
 }
