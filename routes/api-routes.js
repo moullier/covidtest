@@ -459,18 +459,44 @@ app.post("/api/add_dkitem", function (req, res) {
       item: dbKit.item,
       UserId: req.body.uid
     }
-    console.log("Below is the log of the newly created dkObject");
-    console.log(dkObject);
+    // console.log("Below is the log of the newly created dkObject");
+    // console.log(dkObject);
     res.json(dkObject);
   });
 });
 
 
+app.post("/api/add_multiple_dkitems", function(req, res) {
+  console.log(req.body.list);
+
+  let disasterItems = req.body.list;
+
+  let itemList = [];
+
+
+  disasterItems.forEach(item => {
+    db.DisasterKit.create({
+      item: item,
+      UserId: req.body.uid
+    })
+    .then(function (kit) {
+  
+      // console.log("Inserted item" + kit.item);
+      itemList.push(kit);
+      if (itemList.length === disasterItems.length) {
+          res.status(200).json(itemList);
+      }
+    }).catch(function (error) {
+      res.status(500).json(error);            
+    });
+  })
+})
+
+
+
+
 // add new state_data
 app.post("/api/state_data/", function(req, res) {
-  console.log("hit /api/state_data");
-
-  console.log(req.body);
 
   let newStateData = req.body;
   // console.log("***************");

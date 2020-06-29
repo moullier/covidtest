@@ -210,6 +210,7 @@ class Disasters extends Component {
 
     render() {
 
+        
         let resultToRender;
         if(this.state.allStates.length > 0) {
             // console.log("****")
@@ -229,6 +230,7 @@ class Disasters extends Component {
                 return res;
             });
             console.log(temp);
+
             resultToRender = <div className="col-6 faqs">
             <h2 className="text-center">Disasters (Non-COVID) by State in 2020</h2>
             <hr></hr>
