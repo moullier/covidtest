@@ -15,6 +15,7 @@ import FirstTimeUse from "./pages/FirstTimeUse";
 import Footer from "./components/Footer";
 import Disasters from "./pages/Disasters";
 import Change from "./pages/Change";
+import PDFTest from "./pages/PDFTest";
 
 class App extends Component {
   render() {
@@ -30,6 +31,7 @@ class App extends Component {
           <PrivateRoute exact path={"/dashboard"} component={Dashboard} />
           <PrivateRoute exact path={"/ftu"} component={FirstTimeUse} />
           <Route exact path={"/disasters"} component={Disasters} />
+          <Route exact path={"/pdftest"} component={PDFTest} />
           <Route exact path={'/'} component={Home} />
         </Switch>
         <Footer/>
