@@ -53,9 +53,6 @@ class KitResults extends Component {
     this.props.parentCallback(itemArray);
 }
 
-  pickIcon() {
-
-  }
 
   render() {
 

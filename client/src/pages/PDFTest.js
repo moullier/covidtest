@@ -5,12 +5,20 @@ import { Page, Text, View, Document, StyleSheet, Image  } from '@react-pdf/rende
 import ReactDOM from 'react-dom';
 import { PDFViewer, PDFDownloadLink, Source } from '@react-pdf/renderer';
 import logo from "../assets/dt_logo.PNG";
+import box from "../assets/box.png";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 
 // Create styles
 const styles = StyleSheet.create({
   page: {
     flexDirection: 'row',
-    backgroundColor: '#E4E4E4'
+    flexFlow: "row"
+    // backgroundColor: '#E4E4E4'
+  },
+  div: {
+    flexDirection: 'row',
+    flexFlow: "row"
   },
   section: {
     margin: 10,
@@ -18,12 +26,26 @@ const styles = StyleSheet.create({
     flexGrow: 1
   },
   image: {
-    height: 111,
-    width: 303
+    height: 56,
+    width: 151
+    },
+    boximage: {
+        height: 30,
+        width: 30
+    },
+    rowContainer: {
+        flexDirection: 'row'
+    },
+    headerText: {
+        fontSize: "32px",
+        textAlign: "center",
+        margin: 15
+    },
+    listText: {
+        margin: 5
     }
-});
 
-const box = "☐";
+});
 
 // Create Document Component
 const MyDocument = (props) => (
@@ -33,14 +55,22 @@ const MyDocument = (props) => (
         <Image
             source={logo}
             style={styles.image}
-        />  
+        />
+        <Text style={styles.headerText}>
+            Disaster Kit Checklist    
+        </Text>  
           {props.list.map((el) => (
-              <Text>☐boop☐ {el}</Text>
+              <View style={styles.rowContainer}>
+                <Image
+                    source={box}
+                    style={styles.boximage}
+                />  
+                <Text
+                    style={styles.listText}
+                >{el}</Text>
+              </View>
           ))}
       </View>
-      {/* <View style={styles.section}>
-        <Text>Section #2</Text>
-      </View> */}
     </Page>
   </Document>
 );
@@ -57,9 +87,11 @@ class PDFTest extends Component {
 
     render() {
         return (
-            <PDFDownloadLink fileName="test.pdf" document={<MyDocument text="howdy" list={this.state.list}/>}>
+            <div>
+            <PDFDownloadLink fileName="disasterKit.pdf" document={<MyDocument list={this.state.list}/>}>
                 Hello
             </PDFDownloadLink >
+            </div>
         );
     }
 }
